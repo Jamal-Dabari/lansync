@@ -1,26 +1,46 @@
 package org.example.app.net;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 
 public class Messageprotocal {
 
-  private ServerSocket serverSocket;
-  private Socket clientSocket;
-  private BufferedReader in;
-  private PrintWriter out;
+  private static BufferedWriter bf;
+  private static PrintWriter p;
 
-  public void start() {
-
-    int port = 5176;
-
+  public static void sendMessage(OutputStream out, byte[] bytes) {
     try {
-      serverSocket = new ServerSocket(port);
-      out = new PrintWriter(clientSocket.getOutputStream(), true);
-      in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+      // convert bytes.length to 4 bytes (big-endian)
+      byte[] j = new byte[bytes.length * 4];
+      // Write those 4 bytes
+      p = new PrintWriter(out);
+
+      // Write the actual data
+      bf = new BufferedWriter(p, j.length);
+      // flush
+      bf.flush();
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+  }
+
+  public static byte[] recvMessage(InputStream in) {
+
+    try {
+      // Read exactly 4 bytes
+      if (in.available() > 4) {
+      }
+      // Convert to integer
+      // Read exactly that many bytes
+      // return the bytes
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
   }
 
 }
