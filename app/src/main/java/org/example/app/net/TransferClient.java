@@ -10,6 +10,21 @@ public class TransferClient {
   private BufferedReader bufferedReader;
   private BufferedWriter bufferedWriter;
   private PrintWriter out;
+  private MessageProtocol ms;
+
+  public TransferClient(Socket clientSocket, BufferedReader bufferedReader, BufferedWriter bufferedWriter,
+      PrintWriter out, MessageProtocol ms) {
+    this.clientSocket = clientSocket;
+    this.bufferedReader = bufferedReader;
+    this.bufferedWriter = bufferedWriter;
+    this.out = out;
+    this.ms = ms;
+
+  }
+
+  public TransferClient() {
+    super();
+  }
 
   public void start() {
 
@@ -26,11 +41,13 @@ public class TransferClient {
       while (true) {
 
         String msgToSend = sc.nextLine();
+        byte[] bytes = msgToSend.getBytes();
+        ms.sendMessage(clientSocket.getOutputStream(), bytes);
         out.println(msgToSend);
 
         String response = bufferedReader.readLine();
-        System.out.println("Server: " + response);
 
+        System.out.println("Server: " + response);
         System.out.println("Server: " + bufferedReader.readLine());
 
         if (msgToSend.equalsIgnoreCase("bye")) {

@@ -1,11 +1,8 @@
 package org.example.app.cli;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.Callable;
 
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 
 import org.example.app.net.*;
 
@@ -14,7 +11,7 @@ public class send implements Callable<Integer> {
 
   // @Option(names = { "-f", "--file" })
   // private File file;
-  private TransferServer ts = new TransferServer();
+  private TransferClient ts = new TransferClient();
 
   @Override
   public Integer call() {
@@ -22,9 +19,9 @@ public class send implements Callable<Integer> {
     System.out.println("sending....");
 
     try {
-
       ts.start();
-    } catch (IOException e) {
+
+    } catch (Exception e) {
       e.printStackTrace();
     }
 

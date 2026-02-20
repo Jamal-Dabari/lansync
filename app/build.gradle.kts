@@ -5,8 +5,11 @@
  */
 
 plugins {
+    java
+    id("org.graalvm.buildtools.native") version "0.10.6"
     id("buildlogic.java-application-conventions")
 }
+
 
 dependencies {
     implementation("org.apache.commons:commons-text")
