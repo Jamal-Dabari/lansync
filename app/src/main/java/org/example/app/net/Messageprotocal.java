@@ -8,20 +8,18 @@ import java.io.PrintWriter;
 
 public class Messageprotocal {
 
-  private static BufferedWriter bf;
-  private static PrintWriter p;
+  public Messageprotocal() {
+    super();
+  }
 
   public static void sendMessage(OutputStream out, byte[] bytes) {
     try {
       // convert bytes.length to 4 bytes (big-endian)
-      byte[] j = new byte[bytes.length * 4];
+      byte[] messageHeader = new byte[4];
       // Write those 4 bytes
-      p = new PrintWriter(out);
-
       // Write the actual data
-      bf = new BufferedWriter(p, j.length);
       // flush
-      bf.flush();
+      out.flush();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -29,18 +27,22 @@ public class Messageprotocal {
   }
 
   public static byte[] recvMessage(InputStream in) {
+    byte[] data = new byte[1024];
 
     try {
       // Read exactly 4 bytes
-      if (in.available() > 4) {
-      }
-      // Convert to integer
       // Read exactly that many bytes
       // return the bytes
+      // return data;
+
+      while (in.available() != -1) {
+        data = in.readNBytes(4);
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
 
+    return data;
   }
 
 }
