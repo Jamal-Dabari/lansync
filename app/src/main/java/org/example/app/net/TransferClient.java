@@ -13,14 +13,10 @@ public class TransferClient {
   private BufferedWriter bufferedWriter;
   private PrintWriter out;
   private Messageprotocal ms;
+  private String ip;
 
-  public TransferClient(Socket clientSocket, BufferedReader bufferedReader, BufferedWriter bufferedWriter,
-      PrintWriter out, Messageprotocal ms) {
-    this.clientSocket = clientSocket;
-    this.bufferedReader = bufferedReader;
-    this.bufferedWriter = bufferedWriter;
-    this.out = out;
-    this.ms = ms;
+  public TransferClient(String ip) {
+    this.ip = ip;
 
   }
 
@@ -31,14 +27,21 @@ public class TransferClient {
   public void start(File file) {
 
     int port = 5176;
+    String filename = file.getName();
+    long fileSize = file.length();
+    System.out.println("File Size In Bytes: " + fileSize);
 
     try {
-      clientSocket = new Socket("localhost", port);
+      clientSocket = new Socket(ip, port);
       // Scanner sc = new Scanner(System.in);
       // Scanner sc = new Scanner(file);
       FileInputStream fis = new FileInputStream(file);
       byte[] buffer = new byte[4096];
       int bytesRead;
+      byte[] name = filename.getBytes();
+      byte[] size = String.valueOf(fileSize).getBytes();
+      Messageprotocal.sendMessage(clientSocket.getOutputStream(), name);
+      Messageprotocal.sendMessage(clientSocket.getOutputStream(), size);
 
       while ((bytesRead = fis.read(buffer)) != -1) {
         byte[] chunk = Arrays.copyOf(buffer, bytesRead);

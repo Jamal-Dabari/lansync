@@ -12,14 +12,23 @@ public class TransferServer {
 
     int port = 5176;
     serverSocket = new ServerSocket(port);
-    String filename = "test";
 
     try {
       System.out.println("Server Has Started");
       clientSocket = serverSocket.accept();
-      FileOutputStream fos = new FileOutputStream(filename);
-      byte[] chunk = Messageprotocal.recvMessage(clientSocket.getInputStream());
-      fos.write(chunk);
+      byte[] name = Messageprotocal.recvMessage(clientSocket.getInputStream());
+      byte[] size = Messageprotocal.recvMessage(clientSocket.getInputStream());
+
+      String realname = new String(name);
+      long realSize = Long.parseLong(new String(size));
+      FileOutputStream fos = new FileOutputStream(realname);
+      long i = 0;
+
+      while (i < realSize) {
+        byte[] chunk = Messageprotocal.recvMessage(clientSocket.getInputStream());
+        fos.write(chunk);
+        i += chunk.length;
+      }
       fos.close();
 
       /*

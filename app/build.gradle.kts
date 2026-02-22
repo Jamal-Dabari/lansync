@@ -15,6 +15,8 @@ dependencies {
     implementation("org.apache.commons:commons-text")
     implementation(project(":utilities"))
     implementation("info.picocli:picocli:4.7.7")
+    implementation ("org.jmdns:jmdns:3.6.3")
+    implementation("org.slf4j:slf4j-nop:2.0.9")
     annotationProcessor("info.picocli:picocli-codegen:4.7.7")
 
 }
