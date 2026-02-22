@@ -1,10 +1,8 @@
 package org.example.app.net;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 
 public class Messageprotocal {
 
@@ -16,8 +14,16 @@ public class Messageprotocal {
     try {
       // convert bytes.length to 4 bytes (big-endian)
       byte[] messageHeader = new byte[4];
+      int length = bytes.length;
+      messageHeader[0] = (byte) (length >> 24);
+      messageHeader[1] = (byte) (length >> 16);
+      messageHeader[2] = (byte) (length >> 8);
+      messageHeader[3] = (byte) (length);
+
       // Write those 4 bytes
+      out.write(messageHeader);
       // Write the actual data
+      out.write(bytes);
       // flush
       out.flush();
     } catch (IOException e) {
@@ -27,17 +33,18 @@ public class Messageprotocal {
   }
 
   public static byte[] recvMessage(InputStream in) {
-    byte[] data = new byte[1024];
+    byte[] data = new byte[4];
 
     try {
       // Read exactly 4 bytes
+      data = in.readNBytes(4);
       // Read exactly that many bytes
-      // return the bytes
-      // return data;
+      int length = ((data[0] & 0xFF) << 24) | ((data[1] & 0xFF) << 16) | ((data[2] & 0xFF) << 8)
+          | (data[3] & 0xFF);
 
-      while (in.available() != -1) {
-        data = in.readNBytes(4);
-      }
+      byte[] message = in.readNBytes(length);
+      return message;
+
     } catch (IOException e) {
       e.printStackTrace();
     }

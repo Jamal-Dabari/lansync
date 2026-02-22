@@ -3,7 +3,7 @@ package org.example.app.cli;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
-import org.example.app.net.TransferClient;
+//import org.example.app.net.TransferClient;
 import org.example.app.net.TransferServer;
 
 import picocli.CommandLine.Command;
