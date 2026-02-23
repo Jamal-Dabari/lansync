@@ -7,7 +7,6 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import org.example.app.discovery.DeviceDiscovery;
 import org.example.app.net.*;
 
 @Command(name = "send", description = "Send Files across the network")

@@ -1,0 +1,8 @@
+[
+  {
+    "name": "org.example.app.discovery.Device",
+    "allDeclaredFields": true,
+    "allDeclaredMethods": true,
+    "allDeclaredConstructors": true
+  }
+]

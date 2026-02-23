@@ -1,6 +1,7 @@
 package org.example.app.discovery;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class DeviceDiscovery {
 
   public void registering() {
     try {
-      jmdns = JmDNS.create();
+      InetAddress addr = InetAddress.getLocalHost();
+      jmdns = JmDNS.create(addr);
       serviceInfo = ServiceInfo.create("_lansync._tcp.local.", "Jamals PC", 5176, "Lansync Device");
       jmdns.registerService(serviceInfo);
     } catch (IOException e) {
