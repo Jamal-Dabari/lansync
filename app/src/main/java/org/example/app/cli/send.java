@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 import org.example.app.discovery.DeviceDiscovery;
 import org.example.app.net.*;
@@ -15,16 +16,21 @@ public class send implements Callable<Integer> {
   @Option(names = { "-f", "--file" })
   private File file;
 
-  private DeviceDiscovery ds = new DeviceDiscovery();
+  @Parameters
+  String ip;
 
-  String ip = ds.getDevices().get(0).getHostAddresses()[0];
+  /*
+   * @Parameters
+   * int port;
+   */
+
   private TransferClient ts = new TransferClient(ip);
 
   @Override
   public Integer call() {
 
     System.out.println("sending....");
-
+    System.out.println(ip);
     try {
       ts.start(file);
 
