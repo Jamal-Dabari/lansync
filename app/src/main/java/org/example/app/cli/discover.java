@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.Callable;
+import java.util.List;
 
 import javax.jmdns.ServiceInfo;
 
@@ -19,15 +20,16 @@ import org.example.app.net.Messageprotocal;
 public class discover implements Callable<Integer> {
   private DeviceDiscovery ds;
   private Device device;
-  private FileOutputStream out;
-
-  // @Option(names = "-s", description = "Specify an Ip Adress to look for",)
-  // String specify;
+  private Gson gson = new Gson();
+  private String bar = "[";
+  private String bar2 = "]";
+  private String comma = ",";
 
   @Override
-  public Integer call() {
+  public Integer call() throws IOException {
 
     System.out.println("discovering... ");
+    FileOutputStream ot = new FileOutputStream("devices.json", true);
     ds = new DeviceDiscovery();
     ds.registering();
     ds.discovering();
@@ -38,33 +40,35 @@ public class discover implements Callable<Integer> {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    for (ServiceInfo info : ds.getDevices()) {
-      System.out.println("Device: " + info);
-      Device device = new Device();
-      device.setName(info.getName());
-      device.setIp(info.getHostAddresses()[0]);
-      System.out.println("Name: " + info.getName());
-      System.out.println("IP: " + info.getHostAddresses()[0]);
-      System.out.println("device found: " + device);
-      Gson gson = new Gson();
 
-      Device test = new Device("test", "192.168.1.1");
-      System.out.println(gson.toJson(test));
+    try{
+      ot.write(bar.getBytes());
+      List<ServiceInfo> devices = ds.getDevices();
 
-      System.out.println("About to serialize - name: " + device.getName() + " ip: " + device.getIp());
-      String json = gson.toJson(device);
-      try (FileOutputStream ot = new FileOutputStream("devices.json", true)) {
-        ot.write(json.getBytes());
+      try {
+        for (int i = 0; i < ds.getDevices().size(); i++) {
+         Device device = new Device();
+         device.setName(devices.get(i).getName());
+         device.setIp(devices.get(i).getHostAddresses()[0]);
+         String json = gson.toJson(device);
+         ot.write(json.getBytes());
+         if(i < devices.size() -1){
+          ot.write(comma.getBytes());
+          }
+        }
+        ot.write(bar2.getBytes());
+        if (ds.getDevices().isEmpty()) {
+         System.out.println("No devices found");
+       }
       } catch (IOException e) {
         e.printStackTrace();
       }
 
+    } catch (IOException e){
+      e.printStackTrace();
+    } finally {
+      ot.close();
     }
-
-    if (ds.getDevices().isEmpty()) {
-      System.out.println("No devices found");
-    }
-
     return 0;
   }
 }
