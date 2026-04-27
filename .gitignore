@@ -17,3 +17,14 @@ tmp/
 temp/
 
 device.json
+devices.json
+
+# IDE files
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+
+# Compiled Java class files
+*.class

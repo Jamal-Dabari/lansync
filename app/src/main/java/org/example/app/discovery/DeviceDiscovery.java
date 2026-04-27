@@ -26,9 +26,9 @@ public class DeviceDiscovery {
 
   public void registering() {
     try {
-      InetAddress addr = InetAddress.getLocalHost();
+      InetAddress addr = InetAddress.getByName("192.168.5.50");
       jmdns = JmDNS.create(addr);
-      serviceInfo = ServiceInfo.create("_lansync._tcp.local.", "Jamals PC", 5176, "Lansync Device");
+      serviceInfo = ServiceInfo.create("_lansync._tcp.local.", "Jamals mac", 5176, "Lansync Device");
       jmdns.registerService(serviceInfo);
     } catch (IOException e) {
       e.printStackTrace();
