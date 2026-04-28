@@ -6,14 +6,13 @@
 
 plugins {
     java
-    id("org.graalvm.buildtools.native") version "0.10.6"
+    id("org.graalvm.buildtools.native") version "1.1.0"
     id("buildlogic.java-application-conventions")
 }
 
 
 dependencies {
     implementation("org.apache.commons:commons-text")
-    implementation(project(":utilities"))
     implementation("info.picocli:picocli:4.7.7")
     implementation("org.jmdns:jmdns:3.6.3")
     implementation("org.slf4j:slf4j-nop:2.0.9")
@@ -34,4 +33,15 @@ tasks.named<JavaExec>("run") {
 application {
     // Define the main class for the application.
     mainClass = "org.example.app.App"
+    applicationName = "lansync"
+}
+
+graalvmNative {
+    toolchainDetection = true
+    binaries.all {
+        javaLauncher = javaToolchains.launcherFor {
+            languageVersion = JavaLanguageVersion.of(25)
+            vendor = JvmVendorSpec.ORACLE
+        }
+    }
 }
