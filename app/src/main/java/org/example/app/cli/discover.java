@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import org.example.app.discovery.*;
-import org.example.app.net.Messageprotocal;
 
 @Command(name = "discover", description = "Discover connections across a network")
 public class discover implements Callable<Integer> {
