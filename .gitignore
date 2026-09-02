@@ -24,7 +24,18 @@ devices.json
 .project
 .settings/
 .idea/
+.vscode/
 *.iml
 
 # Compiled Java class files
 *.class
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# lansync in-flight transfers, if a sync dir ever lives under the repo
+*.lansync.tmp
