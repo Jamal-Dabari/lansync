@@ -29,7 +29,7 @@ import picocli.CommandLine.Spec;
         WatchCommand.class,
         ListenCommand.class,
         SendCommand.class,
-        discover.class
+        DiscoverCommand.class
     })
 public class LansyncCommand implements Callable<Integer> {
 
