@@ -17,9 +17,12 @@ Dropbox / Drive / OneDrive route your files through someone else's servers. `rsy
 
 ## Requirements
 
-- Java 25+ 
-- A LAN that allows mDNS 
-- For native builds: GraalVM for JDK 25
+- Java 25+. If no JDK 25 is installed, Gradle provisions one via the foojay
+  resolver, so `./gradlew` works on a fresh clone with no local setup.
+- A LAN that allows mDNS
+- For native builds only: Oracle GraalVM for JDK 25. The `graalvmNative` block
+  in `app/build.gradle.kts` selects it by vendor; change that vendor if you use
+  a different GraalVM distribution. Nothing else in the build needs it.
 
 ## Build
 
@@ -169,8 +172,8 @@ The client drives the conversation. It computes the diff and issues pushes (`FIL
 ```json
 {
   "deviceId": "a7f3-…-uuid",
-  "hostname": "jamals-mac",
-  "syncDir":  "/Users/jamal/LANSync",
+  "hostname": "laptop",
+  "syncDir":  "/home/you/LANSync",
   "port": 5176,
   "bindAddress": "en0",
   "lastSyncAt": "2026-04-18T14:30:00Z"
