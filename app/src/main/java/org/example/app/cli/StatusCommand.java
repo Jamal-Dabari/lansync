@@ -11,9 +11,25 @@ import org.example.app.util.Config;
 
 import picocli.CommandLine.Command;
 
+/**
+ * Reports this device's identity, sync directory and local file totals.
+ *
+ * @author Jamal
+ */
 @Command(name = "status", description = "Show last sync time and local manifest stats")
 public class StatusCommand implements Callable<Integer> {
 
+  /** Creates the command. picocli instantiates it reflectively. */
+  public StatusCommand() {
+  }
+
+  /**
+   * Prints the stored settings and a fresh scan of the sync directory.
+   *
+   * @return {@code 0} on success, {@code 1} if the device is not initialised,
+   *         {@code 2} if the sync directory is missing from disk
+   * @throws Exception if the config or sync directory cannot be read
+   */
   @Override
   public Integer call() throws Exception {
     Config c = Config.load();

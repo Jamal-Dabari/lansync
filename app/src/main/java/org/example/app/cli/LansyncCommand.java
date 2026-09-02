@@ -24,8 +24,11 @@ import picocli.CommandLine.Spec;
     subcommands = {
         InitCommand.class,
         ServeCommand.class,
+        SyncCommand.class,
         ListPeersCommand.class,
         StatusCommand.class,
+        ConfigCommand.class,
+        InterfacesCommand.class,
         WatchCommand.class,
         ListenCommand.class,
         SendCommand.class,
